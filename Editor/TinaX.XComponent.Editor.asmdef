@@ -1,0 +1,17 @@
+{
+    "name": "TinaX.XComponent.Editor",
+    "references": [
+        "GUID:9db5e326baf15604fb41b0ba171e2039"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
