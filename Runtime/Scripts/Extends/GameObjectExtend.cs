@@ -36,6 +36,22 @@ namespace TinaX.XComponent
             return null;
         }
 
+        public static T GetXBehaviour<T>(this GameObject go) where T : XBehaviour
+        {
+            var cs = go.GetComponents<XComponent>();
+            if (cs == null || cs.Length == 0)
+                return null;
+            string type_full_name = typeof(T).FullName;
+            foreach (var c in cs)
+            {
+                if (c.Behaviour == null)
+                    continue;
+                if (c.FullName == type_full_name)
+                    return c as T;
+            }
+            return null;
+        }
+
         public static XComponent GetXComponent(this GameObject go, Type type)
         {
             var cs = go.GetComponents<XComponent>();
@@ -48,6 +64,22 @@ namespace TinaX.XComponent
                     continue;
                 if (c.FullName == type_full_name)
                     return c;
+            }
+            return null;
+        }
+
+        public static XBehaviour GetXBehaviour(this GameObject go, Type type)
+        {
+            var cs = go.GetComponents<XComponent>();
+            if (cs == null || cs.Length == 0)
+                return null;
+            string type_full_name = type.FullName;
+            foreach (var c in cs)
+            {
+                if (c.Behaviour == null)
+                    continue;
+                if (c.FullName == type_full_name)
+                    return c.Behaviour;
             }
             return null;
         }
@@ -67,7 +99,20 @@ namespace TinaX.XComponent
             return null;
         }
 
-
+        public static XBehaviour GetXBehaviour(this GameObject go, string typeName)
+        {
+            var cs = go.GetComponents<XComponent>();
+            if (cs == null || cs.Length == 0)
+                return null;
+            foreach (var c in cs)
+            {
+                if (c.Behaviour == null)
+                    continue;
+                if (c.Name == typeName)
+                    return c.Behaviour;
+            }
+            return null;
+        }
 
     }
 }
