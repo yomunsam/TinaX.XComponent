@@ -56,6 +56,17 @@ namespace TinaX.XComponent.Internal
                         return 0f;
                 }
             },
+            new BaseTypeHandler("boolean")
+            {
+                SetValueFunc = (obj, info) =>
+                {
+                    info.Value_bool = (bool)obj;
+                },
+                GetValueFunc = info =>
+                {
+                    return info.Value_bool;
+                }
+            },
             new BaseTypeHandler("array string")
             {
                 SetValueFunc = (obj, info) =>

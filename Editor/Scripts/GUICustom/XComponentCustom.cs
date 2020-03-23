@@ -29,7 +29,7 @@ namespace TinaXEditor.XComponent.GUICustom
         private string[] mBaseTypeNames;
         private Dictionary<string, int> mDict_baseTypeName;
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             if (mToolbar_Text == null || mToolbar_Text.Length == 0)
                 mToolbar_Text = I18Ns.Toolbar_title;
@@ -50,7 +50,7 @@ namespace TinaXEditor.XComponent.GUICustom
             //base.OnInspectorGUI(); //Debug的时候用的
 
             EditorGUILayout.BeginVertical();
-            EditorGUILayout.LabelField("X Component", EditorStyles.centeredGreyMiniLabel);
+            EditorGUILayout.LabelField(target.name, EditorStyles.centeredGreyMiniLabel);
             mToolbar_Index = GUILayout.Toolbar(mToolbar_Index, mToolbar_Text);
             GUILayout.Space(4);
             if(mToolbar_Index == 0)
@@ -89,7 +89,7 @@ namespace TinaXEditor.XComponent.GUICustom
                 mReorderableList_UObject = new ReorderableList(this.serializedObject,
                     this.serializedObject.FindProperty("UObjectBindInfos"),
                     true, //draggable
-                    false, //display header 
+                    true, //display header 
                     true,
                     true);
                 mReorderableList_UObject.drawElementCallback = (rect, index, selected, focused) =>
@@ -127,6 +127,10 @@ namespace TinaXEditor.XComponent.GUICustom
                         ReorderableList.defaultBehaviours.DoAddButton(list);
                     }
                 };
+                mReorderableList_UObject.drawHeaderCallback = (rect) =>
+                {
+                    GUI.Label(rect, I18Ns.UObject_Head);
+                };
             }
             mReorderableList_UObject.DoLayoutList();
             if(mUObject_Cache == null)
@@ -149,6 +153,10 @@ namespace TinaXEditor.XComponent.GUICustom
                     false, //display header 
                     true,
                     true);
+                mReorderableList_Types.drawHeaderCallback = rect =>
+                {
+                    GUI.Label(rect, I18Ns.Types_Head);
+                };
                 mReorderableList_Types.drawElementCallback = (rect, index, selected, focused) =>
                 {
                     rect.height = EditorGUIUtility.singleLineHeight;
@@ -237,6 +245,7 @@ namespace TinaXEditor.XComponent.GUICustom
                         SerializedProperty item_arr_double = itemData.FindPropertyRelative("Value_Double");
                         SerializedProperty item_arr_long = itemData.FindPropertyRelative("Value_long");
                         SerializedProperty item_arr_curve = itemData.FindPropertyRelative("Value_Curve");
+                        SerializedProperty item_bool = itemData.FindPropertyRelative("Value_bool");
 
                         item_name.stringValue = null;
                         item_type.stringValue = null;
@@ -244,6 +253,7 @@ namespace TinaXEditor.XComponent.GUICustom
                         item_arr_double.ClearArray();
                         item_arr_long.ClearArray();
                         item_arr_curve.animationCurveValue = null;
+                        item_bool.boolValue = false;
                     }
                     else
                     {
@@ -399,6 +409,15 @@ namespace TinaXEditor.XComponent.GUICustom
                 }
             }
 
+            public static string Types_Head
+            {
+                get
+                {
+                    if (IsChinese) return "常用基础值类型绑定";
+                    return "Common base value type binding";
+                }
+            }
+
             public static string OpenEditWindow
             {
                 get
@@ -450,6 +469,9 @@ namespace TinaXEditor.XComponent.GUICustom
         private string[] mBaseTypeNames;
         private Dictionary<string, int> mDict_baseTypeName;
 
+        private Vector2 v2_scroll_uobj;
+        private Vector2 v2_scroll_types;
+
         private void OnEnable()
         {
             if(target != null)
@@ -475,7 +497,7 @@ namespace TinaXEditor.XComponent.GUICustom
             {
                 #region Invoke custom obj
                 EditorGUILayout.BeginVertical();
-                EditorGUILayout.LabelField($"X Component - {target.name}", EditorStyles.centeredGreyMiniLabel);
+                EditorGUILayout.LabelField(target.name, EditorStyles.centeredGreyMiniLabel);
                 mToolbar_Index = GUILayout.Toolbar(mToolbar_Index, mToolbar_Text);
                 GUILayout.Space(4);
                 if (mToolbar_Index == 0)
@@ -513,6 +535,7 @@ namespace TinaXEditor.XComponent.GUICustom
 
         private void DrawUnityObjectBindingGUI()
         {
+            v2_scroll_uobj = EditorGUILayout.BeginScrollView(v2_scroll_uobj);
             if (mReorderableList_UObject == null)
             {
                 mReorderableList_UObject = new ReorderableList(this.serializedObject,
@@ -521,6 +544,10 @@ namespace TinaXEditor.XComponent.GUICustom
                     false, //display header 
                     true,
                     true);
+                mReorderableList_UObject.drawHeaderCallback = (rect) =>
+                {
+                    GUI.Label(rect, I18Ns.UObject_Head);
+                };
                 mReorderableList_UObject.drawElementCallback = (rect, index, selected, focused) =>
                 {
                     rect.height = EditorGUIUtility.singleLineHeight;
@@ -566,10 +593,14 @@ namespace TinaXEditor.XComponent.GUICustom
                     mUObject_Cache.AddRange(mUObject_Cache);
                 }
             }
+
+
+            EditorGUILayout.EndScrollView();
         }
 
         private void DrawTypeObjectBindingGUI()
         {
+            v2_scroll_types = EditorGUILayout.BeginScrollView(v2_scroll_types);
             if (mReorderableList_Types == null)
             {
                 mReorderableList_Types = new ReorderableList(this.serializedObject,
@@ -578,6 +609,10 @@ namespace TinaXEditor.XComponent.GUICustom
                     false, //display header 
                     true,
                     true);
+                mReorderableList_Types.drawHeaderCallback = rect =>
+                {
+                    GUI.Label(rect, I18Ns.Types_Head);
+                };
                 mReorderableList_Types.drawElementCallback = (rect, index, selected, focused) =>
                 {
                     rect.height = EditorGUIUtility.singleLineHeight;
@@ -666,6 +701,8 @@ namespace TinaXEditor.XComponent.GUICustom
                         SerializedProperty item_arr_double = itemData.FindPropertyRelative("Value_Double");
                         SerializedProperty item_arr_long = itemData.FindPropertyRelative("Value_long");
                         SerializedProperty item_arr_curve = itemData.FindPropertyRelative("Value_Curve");
+                        SerializedProperty item_bool = itemData.FindPropertyRelative("Value_bool");
+
 
                         item_name.stringValue = null;
                         item_type.stringValue = null;
@@ -673,6 +710,7 @@ namespace TinaXEditor.XComponent.GUICustom
                         item_arr_double.ClearArray();
                         item_arr_long.ClearArray();
                         item_arr_curve.animationCurveValue = null;
+                        item_bool.boolValue = false;
                     }
                     else
                     {
@@ -696,6 +734,8 @@ namespace TinaXEditor.XComponent.GUICustom
                 };
             }
             mReorderableList_Types.DoLayoutList();
+
+            EditorGUILayout.EndScrollView();
         }
 
         private void OnChanged()
@@ -810,6 +850,16 @@ namespace TinaXEditor.XComponent.GUICustom
                 {
                     if (IsChinese) return "绑定Unity对象";
                     return "Bind unity object";
+                }
+            }
+
+            
+            public static string Types_Head
+            {
+                get
+                {
+                    if (IsChinese) return "常用基础值类型绑定";
+                    return "Common base value type binding";
                 }
             }
 

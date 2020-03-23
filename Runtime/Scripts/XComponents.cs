@@ -83,7 +83,7 @@ namespace TinaX.XComponent
                 {
                     if (component.TryGetBindingUObject(find_bind_name, out var uobj))
                     {
-                        if (uobj.GetType().IsSubclassOf(property.PropertyType))
+                        if (uobj.GetType().IsSubclassOf(property.PropertyType) || uobj.GetType().IsAssignableFrom(property.PropertyType))
                         {
                             property.SetValue(injected_obj, uobj);
                             continue;
@@ -133,7 +133,7 @@ namespace TinaX.XComponent
                 {
                     if (component.TryGetBindingUObject(find_bind_name, out var uobj))
                     {
-                        if (uobj.GetType().IsSubclassOf(field.FieldType))
+                        if (uobj.GetType().IsSubclassOf(field.FieldType) || uobj.GetType().IsAssignableFrom(field.FieldType))
                         {
                             field.SetValue(injected_obj, uobj);
                             continue;

@@ -36,6 +36,14 @@ namespace TinaXEditor.XComponent.Internal
                 },
                 EditorGUIHeight = obj => EditorGUIUtility.singleLineHeight
             },
+            new BaseTypeGUIHandler("boolean")
+            {
+                DrawEditorGUI = (rect, source) =>
+                {
+                    return EditorGUI.Toggle(rect,(bool)source);
+                },
+                EditorGUIHeight = obj => EditorGUIUtility.singleLineHeight
+            },
             new BaseTypeGUIHandler("array string")
             {
                 DrawEditorGUI = (rect, source) =>

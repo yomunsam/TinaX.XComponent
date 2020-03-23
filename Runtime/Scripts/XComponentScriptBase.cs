@@ -41,6 +41,11 @@ namespace TinaX.XComponent
             return false;
         }
 
+        public virtual void SendMsg(string messageName, params object[] param)
+        {
+
+        }
+
     }
 }
 

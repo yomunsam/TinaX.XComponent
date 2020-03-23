@@ -24,6 +24,10 @@ namespace TinaX.XComponent
             this.Behaviour = behaviour;
             this.Name = behaviour.GetType().Name;
             this.FullName = behaviour.GetType().FullName;
+            behaviour.gameObject = this.gameObject;
+            behaviour.transform = this.transform;
+            behaviour.xComponent = this;
+
             if (mAwaked)
                 this.Behaviour.Awake();
 
@@ -39,6 +43,13 @@ namespace TinaX.XComponent
             return this;
         }
 
+        public override void SendMsg(string msgName, params object[] param)
+        {
+            if(Behaviour!= null)
+            {
+                this.Behaviour.OnMessage(msgName, param);
+            }
+        }
 
         private void Awake()
         {
@@ -86,7 +97,7 @@ namespace TinaX.XComponent
         public void InvokeFixedUpdate()
         {
             if (Behaviour != null)
-                Behaviour.OnFixedUpdate();
+                Behaviour.FixedUpdate();
         }
 
         public void InvokeLateUpdate()
@@ -112,6 +123,7 @@ namespace TinaX.XComponent
             if (Behaviour != null)
                 Behaviour.OnApplicationQuit();
         }
+
 
     }
 }

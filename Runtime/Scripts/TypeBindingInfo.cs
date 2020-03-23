@@ -10,6 +10,7 @@ namespace TinaX.XComponent.Internal
         public string[] Value_String;
         public double[] Value_Double;
         public long[] Value_long;
+        public bool Value_bool;
         public UnityEngine.AnimationCurve Value_Curve;
     }
 }
