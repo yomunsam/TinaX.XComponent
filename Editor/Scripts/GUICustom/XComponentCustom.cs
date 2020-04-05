@@ -29,7 +29,9 @@ namespace TinaXEditor.XComponent.GUICustom
         private string[] mBaseTypeNames;
         private Dictionary<string, int> mDict_baseTypeName;
 
-        protected virtual void OnEnable()
+        private bool refresh_data = false;
+
+        private void refreshData()
         {
             if (mToolbar_Text == null || mToolbar_Text.Length == 0)
                 mToolbar_Text = I18Ns.Toolbar_title;
@@ -38,6 +40,7 @@ namespace TinaXEditor.XComponent.GUICustom
 
             mBaseTypeNames = XComponents.GetTypeNames();
             mDict_baseTypeName = new Dictionary<string, int>();
+            refresh_data = true;
         }
 
         private void OnDisable()
@@ -47,6 +50,8 @@ namespace TinaXEditor.XComponent.GUICustom
 
         public override void OnInspectorGUI()
         {
+            if (!refresh_data)
+                refreshData();
             //base.OnInspectorGUI(); //Debug的时候用的
 
             EditorGUILayout.BeginVertical();
