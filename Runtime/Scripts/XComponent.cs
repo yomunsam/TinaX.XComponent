@@ -69,6 +69,7 @@ namespace TinaX.XComponent
         {
             if (Behaviour != null)
             {
+                Behaviour.BeforeDestroy();
                 Behaviour.OnDestroy();
                 Behaviour = null;
             }
