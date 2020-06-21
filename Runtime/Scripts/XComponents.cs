@@ -83,14 +83,15 @@ namespace TinaX.XComponent
                 {
                     if (component.TryGetBindingUObject(find_bind_name, out var uobj))
                     {
-                        if (uobj.GetType().IsSubclassOf(property.PropertyType) || uobj.GetType().IsAssignableFrom(property.PropertyType))
+                        Type __t_uobj = uobj.GetType();
+                        if (__t_uobj.IsSubclassOf(property.PropertyType) || __t_uobj.IsAssignableFrom(property.PropertyType))
                         {
                             property.SetValue(injected_obj, uobj);
                             continue;
                         }
                         else
                         {
-                            if(uobj.GetType() == type_go) //如果绑定类型是GameObject,尝试寻找想要被注入的类型是不是这个GameObject上的Component
+                            if(__t_uobj == type_go) //如果绑定类型是GameObject,尝试寻找想要被注入的类型是不是这个GameObject上的Component
                             {
                                 if(((UnityEngine.GameObject)uobj).TryGetComponent(property.PropertyType,out var _result))
                                 {
@@ -133,14 +134,15 @@ namespace TinaX.XComponent
                 {
                     if (component.TryGetBindingUObject(find_bind_name, out var uobj))
                     {
-                        if (uobj.GetType().IsSubclassOf(field.FieldType) || uobj.GetType().IsAssignableFrom(field.FieldType))
+                        Type __t_uobj = uobj.GetType();
+                        if (__t_uobj.IsSubclassOf(field.FieldType) || __t_uobj.IsAssignableFrom(field.FieldType))
                         {
                             field.SetValue(injected_obj, uobj);
                             continue;
                         }
                         else
                         {
-                            if (uobj.GetType() == type_go) //如果绑定类型是GameObject,尝试寻找想要被注入的类型是不是这个GameObject上的Component
+                            if (__t_uobj == type_go) //如果绑定类型是GameObject,尝试寻找想要被注入的类型是不是这个GameObject上的Component
                             {
                                 if (((UnityEngine.GameObject)uobj).TryGetComponent(field.FieldType, out var _result))
                                 {
