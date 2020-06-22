@@ -45,6 +45,11 @@ namespace TinaX.XComponent
         {
 
         }
+        
+        public virtual void SendQueueMsg(string messageName, params object[] param)
+        {
+
+        }
 
     }
 }

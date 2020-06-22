@@ -1,11 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 namespace TinaX.XComponent
 {
     [AddComponentMenu("TinaX/XComponent/XComponent")]
     public class XComponent : XComponentScriptBase
     {
+        struct MsgQueue
+        {
+            public string MessageName;
+            public object[] Args;
+        }
+
         public string Name { get; private set; } = string.Empty;
         public string FullName { get; private set; } = string.Empty;
         public XBehaviour Behaviour { get; private set; }
@@ -15,6 +23,8 @@ namespace TinaX.XComponent
 
         private bool mEnable = false;
         private bool mDisable = false;
+
+        private List<MsgQueue> m_MsgQueue = new List<MsgQueue>();
 
         internal protected XComponent SetBehaviour(XBehaviour behaviour)
         {
@@ -34,6 +44,15 @@ namespace TinaX.XComponent
             if (mEnable && this.enabled)
                 this.Behaviour.OnEnable();
             
+            if(m_MsgQueue.Count > 0)
+            {
+                foreach(var item in m_MsgQueue)
+                {
+                    this.Behaviour.OnMessage(item.MessageName, item.Args);
+                }
+                m_MsgQueue.Clear();
+            }
+
             if (mStarted)
                 this.Behaviour.Start();
 
@@ -43,11 +62,35 @@ namespace TinaX.XComponent
             return this;
         }
 
+
+
+
         public override void SendMsg(string msgName, params object[] param)
         {
             if(Behaviour!= null)
             {
                 this.Behaviour.OnMessage(msgName, param);
+            }
+        }
+
+        /// <summary>
+        /// 发送队列消息 （如果没有Behaviour时，则进入队列）
+        /// </summary>
+        /// <param name="msgName"></param>
+        /// <param name="param"></param>
+        public override void SendQueueMsg(string msgName, params object[] param)
+        {
+            if (Behaviour != null)
+            {
+                this.Behaviour.OnMessage(msgName, param);
+            }
+            else
+            {
+                this.m_MsgQueue.Add(new MsgQueue
+                {
+                    MessageName = msgName,
+                    Args = param
+                });
             }
         }
 
