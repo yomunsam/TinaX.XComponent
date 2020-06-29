@@ -48,5 +48,20 @@ namespace TinaX.XComponent
 
         public virtual void OnMessage(string msgName, params object[] msgParams) { }
 
+        protected void EnableUpdate(int order = 0)
+        {
+            this.DisposableGroup.RegisterUpdate(this.Update, order);
+        }
+
+        protected void EnableFixedUpdate(int order = 0)
+        {
+            this.DisposableGroup.RegisterFixedUpdate(this.FixedUpdate, order);
+        }
+
+        protected void EnableLateUpdate(int order = 0)
+        {
+            this.DisposableGroup.RegisterLateUpdate(this.LateUpdate, order);
+        }
+
     }
 }

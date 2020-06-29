@@ -94,7 +94,7 @@ namespace TinaX.XComponent
             }
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             if (Behaviour != null)
                 Behaviour.Awake();
@@ -108,7 +108,7 @@ namespace TinaX.XComponent
             mStarted = true;
         }
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             if (Behaviour != null)
             {
