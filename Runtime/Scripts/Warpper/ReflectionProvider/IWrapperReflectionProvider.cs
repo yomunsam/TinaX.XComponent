@@ -11,7 +11,7 @@ namespace TinaX.XComponent.Warpper.ReflectionProvider
         Type GetSourceType(ref object sourceObject);
 
         Action? GetAwake(ref object sourceObject, ref Type sourceType);
-
+        Action? GetStart(ref object sourceObject, ref Type sourceType);
     }
 #nullable restore
 }

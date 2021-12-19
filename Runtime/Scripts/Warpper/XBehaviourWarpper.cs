@@ -14,7 +14,8 @@ namespace TinaX.XComponent.Warpper
         public readonly object SourceObject;
         public readonly Type SourceType;
 
-        public readonly Action? m_SourceAwake;
+        public readonly Action? SourceAwake;
+        public readonly Action? SourceStart;
 
         public XBehaviourWarpper(object sourceObject, IWrapperReflectionProvider? reflectionProvider = null)
         {
@@ -29,14 +30,20 @@ namespace TinaX.XComponent.Warpper
             SourceObject = sourceObject;
             SourceType = ReflectionProvider.GetSourceType(ref SourceObject);
 
-            m_SourceAwake = ReflectionProvider.GetAwake(ref SourceObject, ref SourceType);
+            SourceAwake = ReflectionProvider.GetAwake(ref SourceObject, ref SourceType);
+            SourceStart = ReflectionProvider.GetStart(ref SourceObject, ref SourceType);
         }
 
 
 
         public override void Awake()
         {
-            m_SourceAwake?.Invoke();
+            SourceAwake?.Invoke();
+        }
+
+        public override void Start()
+        {
+            SourceStart?.Invoke();
         }
 
     }

@@ -28,6 +28,14 @@ namespace TinaX.XComponent.Warpper.ReflectionProvider
             return Delegate.CreateDelegate(typeof(Action), sourceObject, method) as Action;
         }
 
+        public Action? GetStart(ref object sourceObject, ref Type sourceType)
+        {
+            var method = sourceType.GetMethod("Start", bindingFlags);
+            if (method == null)
+                return null;
+            return Delegate.CreateDelegate(typeof(Action), sourceObject, method) as Action;
+        }
+
 
         //绑定对象注入
 
