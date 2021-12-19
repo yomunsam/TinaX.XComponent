@@ -5,25 +5,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TinaX.XComponent.Internal;
+using TinaX.XComponent.Warpper.ReflectionProvider;
+using TinaX.XComponent.Warpper;
 
 namespace TinaX.XComponent
 {
     public static class XComponents
     {
-        private static Dictionary<string, BaseTypeHandler> mDict_Handlers;
+        private static Dictionary<string, BaseTypeHandler> m_HandlerDict;
         private static List<string> mList_Type_Names;
 
+        private static DefaultWrapperReflectionProvider _defaultWrapperReflectionProvider;
 
         static XComponents()
         {
-            mDict_Handlers = new Dictionary<string, BaseTypeHandler>();
+            m_HandlerDict = new Dictionary<string, BaseTypeHandler>();
             mList_Type_Names = new List<string>();
             RegisterBaseTypeHandlers(BaseTypeHandlerListInternal.Handler);
         }
 
+        public static IWrapperReflectionProvider DefaultWrapperReflectionProvider
+        {
+            get
+            {
+                if (_defaultWrapperReflectionProvider == null)
+                    _defaultWrapperReflectionProvider = new DefaultWrapperReflectionProvider();
+                return _defaultWrapperReflectionProvider;
+            }
+        }
+
         public static bool TryGetValue(TypeBindingInfo bindinfo, out object value)
         {
-            if(mDict_Handlers.TryGetValue(bindinfo.TypeName,out var handler))
+            if(m_HandlerDict.TryGetValue(bindinfo.TypeName,out var handler))
             {
                 value = handler.GetValueFunc(bindinfo);
                 return true;
@@ -38,8 +51,8 @@ namespace TinaX.XComponent
 
         public static void RegisterBaseTypeHandler(BaseTypeHandler handler)
         {
-            if (!mDict_Handlers.ContainsKey(handler.TypeName))
-                mDict_Handlers.Add(handler.TypeName, handler);
+            if (!m_HandlerDict.ContainsKey(handler.TypeName))
+                m_HandlerDict.Add(handler.TypeName, handler);
             if (!mList_Type_Names.Contains(handler.TypeName))
                 mList_Type_Names.Add(handler.TypeName);
         }
@@ -57,13 +70,18 @@ namespace TinaX.XComponent
 
         public static bool TryGetHandler(string TypeName, out BaseTypeHandler handler)
         {
-            return mDict_Handlers.TryGetValue(TypeName, out handler);
+            return m_HandlerDict.TryGetValue(TypeName, out handler);
         }
 
         public static void InjectBindings(XComponentScriptBase component, object injected_obj)
         {
             if (component == null || injected_obj == null)
                 return;
+            if(injected_obj is XBehaviourWarpper)
+            {
+                //这是个包装器，
+                return;
+            }
             Type type_uobj = typeof(UnityEngine.Object);
             Type type_go = typeof(UnityEngine.GameObject);
             Type t_obj = injected_obj.GetType();

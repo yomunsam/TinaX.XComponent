@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TinaX.XComponent
+﻿namespace TinaX.XComponent
 {
-    public static class XComponentExtend
+    public static class XComponentExtensions
     {
         public static XComponent AddBehaviour(this XComponent xscript, XBehaviour behaviuor, bool inject_bindings = true)
         {

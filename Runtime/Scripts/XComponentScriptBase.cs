@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TinaX.XComponent.Internal;
 using UnityEngine;
-using TinaX.XComponent.Internal;
 
 namespace TinaX.XComponent
 {
@@ -13,7 +11,12 @@ namespace TinaX.XComponent
 
         public bool TryGetBindingUObject(string Name, out UnityEngine.Object obj)
         {
-            foreach(var item in UObjectBindInfos)
+            if (UObjectBindInfos == null)
+            {
+                obj = null;
+                return false;
+            }
+            foreach (var item in UObjectBindInfos)
             {
                 if(item.Name == Name && item.Object != null)
                 {
@@ -27,6 +30,11 @@ namespace TinaX.XComponent
 
         public bool TryGetBindingType(string Name, out object obj)
         {
+            if (TypeBindInfos == null)
+            {
+                obj = null;
+                return false;
+            }
             foreach(var item in TypeBindInfos)
             {
                 if(item.Name == Name)

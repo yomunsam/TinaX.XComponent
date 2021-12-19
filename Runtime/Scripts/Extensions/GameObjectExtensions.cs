@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace TinaX.XComponent
 {
-    public static class GameObjectExtend
+    public static class GameObjectExtensions
     {
         public static XComponent AddXComponent(this GameObject go ,XBehaviour behaviour)
         {

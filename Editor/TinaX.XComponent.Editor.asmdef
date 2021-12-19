@@ -1,7 +1,10 @@
 {
     "name": "TinaX.XComponent.Editor",
+    "rootNamespace": "",
     "references": [
-        "GUID:9db5e326baf15604fb41b0ba171e2039"
+        "GUID:9db5e326baf15604fb41b0ba171e2039",
+        "GUID:eb0b36a1eab17c54a93dfa5bf816d363",
+        "GUID:4e58fd8b44ff4c14f917ce28647bad94"
     ],
     "includePlatforms": [
         "Editor"

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TinaX.Core.Utils;
+﻿using TinaX.Core.Utils;
 using TinaX.XComponent.Internal;
 using UnityEngine;
 
