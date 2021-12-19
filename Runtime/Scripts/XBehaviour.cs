@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TinaX.Core.Utils;
 using TinaX.XComponent.Internal;
 using UnityEngine;
 
@@ -14,17 +15,17 @@ namespace TinaX.XComponent
         public Transform transform;
         public XComponent xComponent;
 
-        protected Utils.DisposableGroup DisposableGroup
+        protected DisposableGroup DisposableGroup
         {
             get
             {
                 if (m_DisposableGroup == null)
-                    m_DisposableGroup = new Utils.DisposableGroup();
+                    m_DisposableGroup = new DisposableGroup();
                 return m_DisposableGroup;
             }
         }
 
-        private Utils.DisposableGroup m_DisposableGroup;
+        private DisposableGroup m_DisposableGroup;
 
         public virtual void OnEnable() { }
         public virtual void OnDisable() { }
@@ -48,20 +49,20 @@ namespace TinaX.XComponent
 
         public virtual void OnMessage(string msgName, params object[] msgParams) { }
 
-        protected void EnableUpdate(int order = 0)
-        {
-            this.DisposableGroup.RegisterUpdate(this.Update, order);
-        }
+        //protected void EnableUpdate(int order = 0)
+        //{
+        //    this.DisposableGroup.RegisterUpdate(this.Update, order);
+        //}
 
-        protected void EnableFixedUpdate(int order = 0)
-        {
-            this.DisposableGroup.RegisterFixedUpdate(this.FixedUpdate, order);
-        }
+        //protected void EnableFixedUpdate(int order = 0)
+        //{
+        //    this.DisposableGroup.RegisterFixedUpdate(this.FixedUpdate, order);
+        //}
 
-        protected void EnableLateUpdate(int order = 0)
-        {
-            this.DisposableGroup.RegisterLateUpdate(this.LateUpdate, order);
-        }
+        //protected void EnableLateUpdate(int order = 0)
+        //{
+        //    this.DisposableGroup.RegisterLateUpdate(this.LateUpdate, order);
+        //}
 
     }
 }
