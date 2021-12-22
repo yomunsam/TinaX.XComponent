@@ -34,6 +34,10 @@ namespace TinaX.XComponent.Warpper
             SourceStart = ReflectionProvider.GetStart(ref SourceObject, ref SourceType);
         }
 
+        public virtual void InjectBindings(XComponentScriptBase component)
+        {
+            ReflectionProvider.InjectBindings(ref component, SourceObject, SourceType);
+        }
 
 
         public override void Awake()

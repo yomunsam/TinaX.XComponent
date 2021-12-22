@@ -12,6 +12,7 @@ namespace TinaX.XComponent.Warpper.ReflectionProvider
 
         Action? GetAwake(ref object sourceObject, ref Type sourceType);
         Action? GetStart(ref object sourceObject, ref Type sourceType);
+        void InjectBindings(ref XComponentScriptBase component, object sourceObject, Type sourceType);
     }
 #nullable restore
 }

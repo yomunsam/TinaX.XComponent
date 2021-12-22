@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TinaX.XComponent.Internal;
-using TinaX.XComponent.Warpper.ReflectionProvider;
 using TinaX.XComponent.Warpper;
+using TinaX.XComponent.Warpper.ReflectionProvider;
 
 namespace TinaX.XComponent
 {
