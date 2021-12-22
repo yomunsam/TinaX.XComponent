@@ -153,10 +153,24 @@ namespace TinaX.XComponent.Warpper.ReflectionProvider
                 //BaseType Inject
                 if (component.TryGetBindingType(find_bind_name, out var obj))
                 {
-                    if (obj.GetType() == field.FieldType)
+                    Type objType = obj.GetType();
+
+                    //最简单的情况：直接相同类型
+                    if (objType == field.FieldType)
                     {
                         field.SetValue(sourceObject, obj);
                         continue;
+                    }
+
+                    //可空值类型
+                    if (field.FieldType.GetGenericTypeDefinition() == _NullableType)
+                    {
+                        var propertyType = field.FieldType.GetGenericArguments()[0];
+                        if (propertyType == objType)
+                        {
+                            field.SetValue(sourceObject, obj);
+                            continue;
+                        }
                     }
                 }
 
