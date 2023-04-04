@@ -68,8 +68,13 @@ namespace TinaXEditor.XComponent.GUICustom
             GUILayout.Space(5);
             if (GUILayout.Button(I18Ns.OpenEditWindow))
             {
+#if UNITY_2021_1_OR_NEWER
+                EditorUtility.OpenPropertyEditor(_target);
+#else
                 XComponentBindingEditWindows.target = _target;
                 XComponentBindingEditWindows.OpenUI();
+#endif
+
             }
 
             EditorGUILayout.EndVertical();
